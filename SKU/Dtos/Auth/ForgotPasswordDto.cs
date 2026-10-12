@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SKU.Dtos.Users
+namespace SKU.Dtos.Auth
 {
     public class ForgotPasswordDto
     {
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 }

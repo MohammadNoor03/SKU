@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SKU.Dtos.Users
+namespace SKU.Dtos.Auth
 {
     public class RegisterDto
     {
-
         [Required]
         [MaxLength(50)]
         public string Username { get; set; } = string.Empty;
@@ -14,8 +13,8 @@ namespace SKU.Dtos.Users
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-
         [Required]
+        [MinLength(8)]
         [MaxLength(50)]
         public string Password { get; set; } = string.Empty;
 
@@ -23,8 +22,5 @@ namespace SKU.Dtos.Users
         [MaxLength(50)]
         [Phone]
         public string PhoneNumber { get; set; } = string.Empty;
-
-        
-        public int UserTypeId { get; set; }
     }
 }

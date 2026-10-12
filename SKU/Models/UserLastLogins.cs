@@ -11,8 +11,8 @@ namespace SKU.Models
 
         [ForeignKey("User")]
         public long UserId { get; set; }
-        public User User { get; set; }
-
+        //public User User { get; set; }
+        public User User { get; set; } = null!;
         public DateTime LastLoginTime { get; set; } = DateTime.UtcNow;
     }
 }

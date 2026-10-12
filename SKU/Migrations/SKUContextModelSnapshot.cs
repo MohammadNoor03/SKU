@@ -46,8 +46,8 @@ namespace SKU.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -64,7 +64,13 @@ namespace SKU.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("UserTypeId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Sec_User");
                 });
@@ -117,6 +123,24 @@ namespace SKU.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sec_UserType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Description = "Human, buys from a store",
+                            MajorCode = 1,
+                            MinorCode = 1,
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Description = "System administrator",
+                            MajorCode = 1,
+                            MinorCode = 2,
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("SKU.Models.User", b =>
@@ -124,7 +148,7 @@ namespace SKU.Migrations
                     b.HasOne("SKU.Models.UserType_Lookup", "UserType_Lookup")
                         .WithMany("Users")
                         .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserType_Lookup");
