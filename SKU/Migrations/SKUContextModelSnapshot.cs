@@ -93,7 +93,7 @@ namespace SKU.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sec_Login");
+                    b.ToTable("Sec_UserLastLogin");
                 });
 
             modelBuilder.Entity("SKU.Models.UserType_Lookup", b =>
@@ -143,6 +143,44 @@ namespace SKU.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SKU.Models.VerificationCode", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Purpose")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Purpose");
+
+                    b.ToTable("Sec_VerificationCode");
+                });
+
             modelBuilder.Entity("SKU.Models.User", b =>
                 {
                     b.HasOne("SKU.Models.UserType_Lookup", "UserType_Lookup")
@@ -158,6 +196,17 @@ namespace SKU.Migrations
                 {
                     b.HasOne("SKU.Models.User", "User")
                         .WithMany("LastLogins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SKU.Models.VerificationCode", b =>
+                {
+                    b.HasOne("SKU.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
